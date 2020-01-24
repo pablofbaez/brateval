@@ -13,7 +13,7 @@ import java.util.TreeSet;
  * 
  * BRAT stand-off relation comparison
  * 
- * @author Antonio Jimeno Yepes (antonio.jimeno@nicta.com.au)
+ * @author Antonio Jimeno Yepes (antonio.jimeno@au.com.csp.nicta.com.au)
  *
  */
 public class CompareRelations

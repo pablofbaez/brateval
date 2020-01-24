@@ -13,7 +13,7 @@ import java.util.Arrays;
  * 
  * BRAT stand-off entity comparison
  * 
- * @author Antonio Jimeno Yepes (antonio.jimeno@nicta.com.au)
+ * @author Antonio Jimeno Yepes (antonio.jimeno@au.com.csp.nicta.com.au)
  * @author Karin Verspoor (karin.verspoor@unimelb.edu.au)
  *
  * Parameter options:
