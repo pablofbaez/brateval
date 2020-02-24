@@ -67,8 +67,8 @@ public class CompareEntities
       summary.nextRow();
   }
 
-  public static void evaluate(String folder1, String folder2, boolean exact_match,
-			double similarity_threshold)
+  public static String[] evaluate(String testFolder, String goldFolder, boolean exact_match,
+								   double similarity_threshold)
   throws IOException
   {
 	Map <String, Integer> entityTP = new TreeMap <String, Integer> ();
@@ -77,7 +77,7 @@ public class CompareEntities
 
 	Set <String> entityTypes = new TreeSet <String> ();
 
-    File folder = new File(folder1);
+    File folder = new File(testFolder);
 	TableOut mismatches = new TableOut(3);
 
     for (File file : folder.listFiles())
@@ -87,14 +87,14 @@ public class CompareEntities
       if (baseName.endsWith(".ann"))
       {
 		BackAnnotate back_annotate = new BackAnnotate(
-			new String[]{folder1 + File.separator +  txtName,
-						folder2 + File.separator +  txtName});
+			new String[]{testFolder + File.separator +  txtName,
+						goldFolder + File.separator +  txtName});
 		
 		TreeMap<Integer,BackAnnotate.SpanTag> ref_map = null;
         Document d1 = Annotations.read(file.getAbsolutePath(),
-        	Paths.get(folder1, file.getName()).toString());
-        Document d2 = Annotations.read(folder2 + File.separator +  file.getName(),
-        	Paths.get(folder2, file.getName()).toString());
+        	Paths.get(testFolder, file.getName()).toString());
+        Document d2 = Annotations.read(goldFolder + File.separator +  file.getName(),
+        	Paths.get(goldFolder, file.getName()).toString());
 
         if (back_annotate.hasSource()) {
         	ref_map = BackAnnotate.makeTagMap(d2.getEntities());
@@ -240,9 +240,15 @@ public class CompareEntities
       report(summary,0,et,TP,FP,FN);
 	}
 	OutFormat summaryFmt = OutFormat.ofEnum(Options.common.outFmt);
+
+    String[] results = {summaryFmt.produceTable(mismatches),summaryFmt.produceTable(summary)};
+
 	System.out.println(
-		summaryFmt.produceTable(mismatches)+
+		results [0] +
 		"Summary:\n"+
-		summaryFmt.produceTable(summary));
+		results [1]
+			);
+
+	return results;
   }
 }

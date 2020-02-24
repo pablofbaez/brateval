@@ -1,0 +1,23 @@
+T1	ORG 0 7	el-pais
+T2	ORG 22 36	Poder Judicial
+T3	PER 76 84	Iglesias
+T4	ORG 221 235	Poder Judicial
+T5	ORG 297 311	Poder Judicial
+T6	ORG 272 280	Gobierno
+T7	ORG 124 132	Gobierno
+T8	ORG 387 389	PP
+T9	ORG 409 413	PSOE
+T10	ORG 481 495	Poder Judicial
+T11	PER 540 554	Pablo Iglesias
+T12	ORG 782 790	Gobierno
+T13	PER 994 1002	Iglesias
+T14	ORG 1040 1053	oder Judicial
+T15	ORG 1304 1308	CGPJ
+T16	ORG 1344 1352	Gobierno
+T17	ORG 1412 1421	Ejecutivo
+T18	PER 1481 1489	Iglesias
+T19	ORG 1542 1556	Poder Judicial
+T20	ORG 1593 1603	La Moncloa
+T21	ORG 1613 1628	vicepresidencia
+T22	PER 1652 1660	Iglesias
+T23	ORG 1690 1724	Consejo General del Poder Judicial
