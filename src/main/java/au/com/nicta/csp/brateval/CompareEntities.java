@@ -67,13 +67,16 @@ public class CompareEntities
       summary.nextRow();
   }
 
-  public static String[] evaluate(String testFolder, String goldFolder, boolean exact_match,
+  public static String evaluate(String testFolder, String goldFolder, boolean exact_match,
 								   double similarity_threshold)
   throws IOException
   {
 	Map <String, Integer> entityTP = new TreeMap <String, Integer> ();
 	Map <String, Integer> entityFP = new TreeMap <String, Integer> ();
 	Map <String, Integer> entityFN = new TreeMap <String, Integer> ();
+	Integer allTP = 0;
+	Integer allFP = 0;
+	Integer allFN = 0;
 
 	Set <String> entityTypes = new TreeSet <String> ();
 
@@ -197,7 +200,7 @@ public class CompareEntities
     System.out.println("");
     System.out.println("Summary");
     TableOut summary = new TableOut(Arrays.asList(
-    	new Object[] {null,"tp","fp","fn","precision","recall","f1"}
+    	new Object[] {"entity","tp","fp","fn","precision","recall","f1"}
     ));
     
 
@@ -237,16 +240,22 @@ public class CompareEntities
       int TP = (entityTP.get(et) == null ? 0 : entityTP.get(et));
       int FP = (entityFP.get(et) == null ? 0 : entityFP.get(et));
       int FN = (entityFN.get(et) == null ? 0 : entityFN.get(et));
+
+      allTP += TP;
+      allFP += FP;
+      allFN += FN;
       report(summary,0,et,TP,FP,FN);
 	}
+
+    report(summary,0,"all",allTP,allFP,allFN);
 	OutFormat summaryFmt = OutFormat.ofEnum(Options.common.outFmt);
 
-    String[] results = {summaryFmt.produceTable(mismatches),summaryFmt.produceTable(summary)};
+    String results = summaryFmt.produceTable(summary);
 
 	System.out.println(
-		results [0] +
+//		results [0] +
 		"Summary:\n"+
-		results [1]
+		results
 			);
 
 	return results;
