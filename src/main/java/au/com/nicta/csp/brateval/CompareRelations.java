@@ -97,11 +97,21 @@ public class CompareRelations
 	Map <String, Integer> relationMissingFN = new HashMap <String, Integer> ();
 
     File folder = new File(folder1);
+      File[] validFiles = new File(folder2).listFiles();
+      LinkedList<String> validFileNames = new LinkedList<>();
+      for (File file: validFiles){
+          if (file.getName().endsWith(".ann")) {
+              validFileNames.add(file.getName());
+          }
+      }
 
     for (File file : folder.listFiles())
     {
-      if (file.getName().endsWith(".ann"))
+      //if (file.getName().endsWith(".ann"))
+        String baseName = file.getName();
+      if (file.getName().endsWith(".ann") && validFileNames.contains(baseName))
       {
+          validFileNames.remove(baseName);
         Map <String, RelationComparison> relations = new TreeMap <String, RelationComparison> ();
 
         Document d1 = Annotations.read(file.getAbsolutePath(),
@@ -241,6 +251,9 @@ public class CompareRelations
         }
       }
     }
+      if(!validFileNames.isEmpty()){
+          throw new java.lang.Error("mandantory file is missing");
+      }
 
     System.out.println("");
     System.out.println("Summary");
@@ -321,11 +334,21 @@ public class CompareRelations
         Map <String, Integer> relationMissingFN = new HashMap <String, Integer> ();
 
         File folder = new File(folder1);
+        File[] validFiles = new File(folder2).listFiles();
+        LinkedList<String> validFileNames = new LinkedList<>();
+        for (File file: validFiles){
+            if (file.getName().endsWith(".ann")) {
+                validFileNames.add(file.getName());
+            }
+        }
 
         for (File file : folder.listFiles())
         {
-            if (file.getName().endsWith(".ann"))
+            //if (file.getName().endsWith(".ann"))
+            String baseName = file.getName();
+            if (file.getName().endsWith(".ann") && validFileNames.contains(baseName))
             {
+                validFileNames.remove(baseName);
                 Map <String, RelationComparison> relations = new TreeMap <String, RelationComparison> ();
 
                 Document d1 = Annotations.read(file.getAbsolutePath(),
@@ -464,6 +487,10 @@ public class CompareRelations
                     { relationFN.put(entry.getKey(), relationFN.get(entry.getKey()) + entry.getValue().getFN().size());}
                 }
             }
+        }
+
+        if(!validFileNames.isEmpty()){
+            throw new java.lang.Error("mandantory file is missing");
         }
 
         System.out.println("");

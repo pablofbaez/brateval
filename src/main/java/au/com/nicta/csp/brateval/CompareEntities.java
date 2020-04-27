@@ -3,17 +3,13 @@ package au.com.nicta.csp.brateval;
 import java.nio.file.Paths;
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * 
  * BRAT stand-off entity comparison
  * 
- * @author Antonio Jimeno Yepes (antonio.jimeno@au.com.csp.nicta.com.au)
+ * @author Antonio Jimeno Yepes (antonio.jimeno@nicta.com.au)
  * @author Karin Verspoor (karin.verspoor@unimelb.edu.au)
  *
  * Parameter options:
@@ -82,13 +78,21 @@ public class CompareEntities
 
     File folder = new File(testFolder);
 	TableOut mismatches = new TableOut(3);
+	File[] validFiles = new File(goldFolder).listFiles();
+	LinkedList<String> validFileNames = new LinkedList<>();
+	for (File file: validFiles){
+		if (file.getName().endsWith(".ann")) {
+			validFileNames.add(file.getName());
+		}
+	}
 
     for (File file : folder.listFiles())
     {
       String baseName = file.getName();
 	  String txtName = baseName.substring(0, baseName.lastIndexOf('.')) + ".txt"; 
-      if (baseName.endsWith(".ann"))
+      if (baseName.endsWith(".ann") && validFileNames.contains(baseName))
       {
+      	validFileNames.remove(baseName);
 		BackAnnotate back_annotate = new BackAnnotate(
 			new String[]{testFolder + File.separator +  txtName,
 						goldFolder + File.separator +  txtName});
@@ -196,6 +200,9 @@ public class CompareEntities
     	}
       }
     }
+    if(!validFileNames.isEmpty()){
+		throw new java.lang.Error("mandantory file is missing");
+	}
 
     System.out.println("");
     System.out.println("Summary");
