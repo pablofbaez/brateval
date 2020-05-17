@@ -29,7 +29,7 @@ public class CompareEntities
   static  boolean show_full_taxonomy = false;
   static  TaxonomyConfig taxonomy = new TaxonomyConfig();
   
-  public static void main (String argc []) throws IOException
+  public static void main (String argc []) throws Exception
   {
 	Options.common = new Options(argc);
 	String folder1 = Options.common.argv[0];
@@ -65,7 +65,7 @@ public class CompareEntities
 
   public static String evaluate(String testFolder, String goldFolder, boolean exact_match,
 								   double similarity_threshold)
-  throws IOException
+  throws IOException, Exception
   {
 	Map <String, Integer> entityTP = new TreeMap <String, Integer> ();
 	Map <String, Integer> entityFP = new TreeMap <String, Integer> ();
@@ -119,7 +119,7 @@ public class CompareEntities
           	if (match != null && print_inexact && !e.getString().equals(match.getString()))
           		System.out.println("Inexact: " + e.getString() + " ~ " + match.getString()); 
            }
-          else // relaxed match plus similarity threshold of 1.0
+          else if (similarity_threshold == 1.0)// relaxed match plus similarity threshold of 1.0
           { match = d2.findEntitySpanOverlap(e);
 	      if (match != null && print_inexact) { // some kind of match for e in d2, work out what kind
 		  // determine what kind of inexact match we have
@@ -145,7 +145,15 @@ public class CompareEntities
 		      }
 		  } 
 	      }
-          } // end match step
+          }
+          else {
+			  match = d2.findEntitySpanOverlap(e);
+			  if (match != null) {
+				  if (!e.getType().equals(match.getType())) {
+					  match = null;
+				  }
+			  }
+		  }// end match step
 
           if (match != null)
     	  {
@@ -201,7 +209,7 @@ public class CompareEntities
       }
     }
     if(!validFileNames.isEmpty()){
-		throw new java.lang.Error("mandantory file is missing");
+		throw new Exception("mandantory file is missing");
 	}
 
     System.out.println("");

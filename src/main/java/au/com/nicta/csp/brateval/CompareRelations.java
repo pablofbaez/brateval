@@ -17,7 +17,7 @@ public class CompareRelations
   static  boolean show_full_taxonomy = false;
   static  TaxonomyConfig taxonomy = new TaxonomyConfig();
 
-  public static void main (String argc []) throws IOException
+  public static void main (String argc []) throws Exception
   {
 	String folder1 = argc[0];
 	String folder2 = argc[1];
@@ -85,7 +85,7 @@ public class CompareRelations
     }
 
   public static void evaluate(String folder1, String folder2, boolean exact_match, boolean verbose)
-  throws IOException
+  throws IOException, Exception
   {
 	Set <String> relationTypes = new TreeSet <String> ();
 
@@ -322,7 +322,7 @@ public class CompareRelations
   }
 
     public static List<Map<String,Object>> resultsAsMap(String folder1, String folder2, boolean exact_match, boolean verbose)
-            throws IOException
+            throws Exception
     {
         Set <String> relationTypes = new TreeSet <String> ();
 
@@ -490,7 +490,7 @@ public class CompareRelations
         }
 
         if(!validFileNames.isEmpty()){
-            throw new java.lang.Error("mandantory file is missing");
+            throw new Exception("mandantory file is missing");
         }
 
         System.out.println("");
