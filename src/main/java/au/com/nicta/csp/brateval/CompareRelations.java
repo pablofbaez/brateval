@@ -84,7 +84,10 @@ public class CompareRelations
         return map;
     }
 
-  public static void evaluate(String folder1, String folder2, boolean exact_match, boolean verbose)
+    public static void evaluate(String folder1, String folder2, boolean exact_match, boolean verbose) throws Exception {
+        evaluate(folder1, folder2, exact_match, verbose, new LinkedList<>());
+    }
+  public static void evaluate(String folder1, String folder2, boolean exact_match, boolean verbose, List<Map<String,Object>> results)
   throws IOException, Exception
   {
 	Set <String> relationTypes = new TreeSet <String> ();
@@ -253,7 +256,7 @@ public class CompareRelations
       }
     }
       if(!validFileNames.isEmpty()){
-          throw new java.lang.Error("mandantory file is missing");
+          throw new Exception("mandantory file is missing");
       }
 
 //    System.out.println("");
@@ -304,7 +307,7 @@ public class CompareRelations
       int totalMFP = 0;
       int totalMFN = 0;
 
-      List<Map<String,Object>> results = new LinkedList<>();
+
       for (String rt : relationTypes)
       {
           int TP = (relationTP.get(rt) == null ? 0 : relationTP.get(rt));
