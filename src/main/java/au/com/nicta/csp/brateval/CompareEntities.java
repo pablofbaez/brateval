@@ -119,8 +119,8 @@ public class CompareEntities
           	if (match != null && print_inexact && !e.getString().equals(match.getString()))
           		System.out.println("Inexact: " + e.getString() + " ~ " + match.getString()); 
            }
-          else if (similarity_threshold == 1.0)// relaxed match plus similarity threshold of 1.0
-          { match = d2.findEntitySpanOverlap(e);
+          else // relaxed match plus similarity threshold of 1.0
+          { match = d2.findEntityOverlap(e);
 	      if (match != null && print_inexact) { // some kind of match for e in d2, work out what kind
 		  // determine what kind of inexact match we have
 		  if ( !e.getString().equals(match.getString())) { // inexact Span
@@ -145,15 +145,7 @@ public class CompareEntities
 		      }
 		  } 
 	      }
-          }
-          else {
-			  match = d2.findEntitySpanOverlap(e);
-			  if (match != null) {
-				  if (!e.getType().equals(match.getType())) {
-					  match = null;
-				  }
-			  }
-		  }// end match step
+          }// end match step
 
           if (match != null)
     	  {
@@ -185,14 +177,15 @@ public class CompareEntities
           Entity match = null;
           
           if (exact_match)
-          {	match = d1.findEntity(e); }
+          {	match = d1.findEntity(e);
+          }
   		  else if (similarity_threshold < 1.0)
   		  {	match = d1.findEntitySimilarString(e, similarity_threshold);
   		            	if (match != null && print_inexact && !e.getString().equals(match.getString()))
           		System.out.println("Inexact: " + e.getString() + " ~ " + match.getString()); 
  		  }
           else
-          { match = d1.findEntitySpanOverlap(e); }
+          { match = d1.findEntityOverlap(e); }
 	      
           if (match == null)
           {
@@ -207,13 +200,12 @@ public class CompareEntities
           }
     	}
       }
+
     }
     if(!validFileNames.isEmpty()){
 		throw new Exception("mandantory file is missing");
 	}
 
-    System.out.println("");
-    System.out.println("Summary");
     TableOut summary = new TableOut(Arrays.asList(
     	new Object[] {"entity","tp","fp","fn","precision","recall","f1"}
     ));
@@ -261,17 +253,10 @@ public class CompareEntities
       allFN += FN;
       report(summary,0,et,TP,FP,FN);
 	}
-
-    report(summary,0,"all",allTP,allFP,allFN);
+    report(summary, 0, "all", allTP, allFP, allFN);
 	OutFormat summaryFmt = OutFormat.ofEnum(Options.common.outFmt);
-
-    String results = summaryFmt.produceTable(summary);
-
-	System.out.println(
-//		results [0] +
-		"Summary:\n"+
-		results
-			);
+	String results = summaryFmt.produceTable(summary);
+	System.out.println("Summary:\n" + results);
 
 	return results;
   }

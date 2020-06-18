@@ -1,11 +1,6 @@
 package au.com.nicta.csp.brateval;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Document class, it includes implementations for entity and relation comparisons 
